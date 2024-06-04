@@ -36,3 +36,37 @@ class Fish implements CanSwim {
     console.log(`The fish is swiming ${distance} meters`);
   }
 }
+
+// Decorator Pattern
+
+interface Component {
+  operation(): string;
+}
+
+class ConcreteComponent implements Component {
+  public operation(): string {
+    return 'ConcreteComponent';
+  }
+}
+
+class Decorator implements Component {
+  protected component: Component;
+
+  constructor(component: Component) {
+    this.component = component;
+  }
+
+  public operation(): string {
+    return this.component.operation();
+  }
+}
+
+class ComponentDecorator extends Decorator {
+  public operation(): string {
+    return `ComponentDecorator(${super.operation()})`;
+  }
+}
+
+const component = new ConcreteComponent();
+const decorator = new ComponentDecorator(component);
+console.log(decorator.operation()); // ComponentDecorator(ConcreteComponent)
