@@ -142,3 +142,78 @@ class JoystickAdapter implements USBJoystick {
 
 const oldJoystick = new OldJoystickImp();
 const oldJoystickWithAdapter = new JoystickAdapter(oldJoystick);
+
+// Builder Pattern
+
+enum CharacterTypes {
+  'MAGE' = 'mage',
+  'WARRIOR' = 'warrior',
+  'ROUGE' = 'rouge',
+}
+
+class Character {
+  level!: number;
+  strength!: number;
+  agility!: number;
+  intelligence!: number;
+  defense!: number;
+  constructor(private name: string, private classType: CharacterTypes) {}
+
+  displayStats(): void {
+    console.log(`Name: ${this.name}`);
+    console.log(`Class Type: ${this.classType}`);
+    console.log(`Level: ${this.level}`);
+    console.log(`Strength: ${this.strength}`);
+    console.log(`Agility: ${this.agility}`);
+    console.log(`Intelligence: ${this.intelligence}`);
+    console.log(`Defense: ${this.defense}`);
+  }
+}
+
+class CharacterBuilder {
+  private character: Character;
+
+  constructor(name: string, characterType: CharacterTypes) {
+    this.character = new Character(name, characterType);
+  }
+
+  setLevel(level: number) {
+    this.character.level = level;
+    return this;
+  }
+
+  setStrength(strength: number) {
+    this.character.strength = strength;
+    return this;
+  }
+
+  setAgility(agility: number) {
+    this.character.agility = agility;
+    return this;
+  }
+
+  setIntelligence(intelligence: number) {
+    this.character.intelligence = intelligence;
+    return this;
+  }
+
+  setDefense(defense: number) {
+    this.character.defense = defense;
+    return this;
+  }
+
+  build(): Character {
+    return this.character;
+  }
+}
+
+const warriorBuilder = new CharacterBuilder('Ariel', CharacterTypes.WARRIOR);
+const warrior = warriorBuilder
+  .setLevel(10)
+  .setDefense(235)
+  .setIntelligence(10)
+  .setAgility(10)
+  .setStrength(1000)
+  .build();
+
+warrior.displayStats();
