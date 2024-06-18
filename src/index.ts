@@ -217,3 +217,47 @@ const warrior = warriorBuilder
   .build();
 
 warrior.displayStats();
+
+// Abstract Factory
+
+interface EnemyFactory {
+  createNormalEnemy(): Enemy;
+  createBossEnemy(): Enemy;
+}
+
+abstract class Enemy {
+  abstract attack(): void;
+}
+
+class NormalEnemy extends Enemy {
+  attack(): void {
+    console.log('The normal enemy attacks');
+  }
+}
+
+class BossEnemy extends Enemy {
+  attack(): void {
+    console.log('The boss enemy attacks');
+  }
+}
+
+class GameEnemyFactory implements EnemyFactory {
+  public createNormalEnemy(): Enemy {
+    return new NormalEnemy();
+  }
+
+  public createBossEnemy(): Enemy {
+    return new BossEnemy();
+  }
+}
+
+function createEnemies(factory: EnemyFactory): void {
+  const normalEnemy = factory.createNormalEnemy();
+  normalEnemy.attack();
+
+  const bossEnemy = factory.createBossEnemy();
+  bossEnemy.attack();
+}
+
+const gameEnemyFactory = new GameEnemyFactory();
+createEnemies(gameEnemyFactory);
