@@ -93,3 +93,52 @@ class Database {
 
 const db = Database.getInstance();
 db.query('Manage this');
+
+// Adapter Pattern
+
+interface OldJoystick {
+  connectToPort(): void;
+  readInputs(): number;
+}
+
+class OldJoystickImp implements OldJoystick {
+  public connectToPort(): void {
+    console.log('Connecting to port');
+  }
+
+  public readInputs(): number {
+    console.log('Reading the old joystick inputs');
+    return Math.floor(Math.random() * 256);
+  }
+}
+
+interface USBJoystick {
+  connectToUSB(): void;
+  readData(): number;
+}
+
+class USBJoystickImp implements USBJoystick {
+  public connectToUSB(): void {
+    console.log('Connecting to usb');
+  }
+
+  public readData(): number {
+    console.log('Reading from USB');
+    return Math.floor(Math.random() * 256);
+  }
+}
+
+class JoystickAdapter implements USBJoystick {
+  constructor(private oldJoystickImp: OldJoystickImp) {}
+
+  public connectToUSB(): void {
+    this.oldJoystickImp.connectToPort();
+  }
+
+  public readData(): number {
+    return this.oldJoystickImp.readInputs();
+  }
+}
+
+const oldJoystick = new OldJoystickImp();
+const oldJoystickWithAdapter = new JoystickAdapter(oldJoystick);
