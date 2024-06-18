@@ -70,3 +70,26 @@ class ComponentDecorator extends Decorator {
 const component = new ConcreteComponent();
 const decorator = new ComponentDecorator(component);
 console.log(decorator.operation()); // ComponentDecorator(ConcreteComponent)
+
+// Singleton Pattern
+
+class Database {
+  private static instance: Database;
+
+  private constructor() {}
+
+  public static getInstance(): Database {
+    if (!Database.instance) {
+      Database.instance = new Database();
+    }
+
+    return Database.instance;
+  }
+
+  public query(query: string): void {
+    console.log(`Executing query: ${query}`);
+  }
+}
+
+const db = Database.getInstance();
+db.query('Manage this');
